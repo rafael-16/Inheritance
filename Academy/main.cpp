@@ -54,8 +54,10 @@ std::ostream& operator<<(std::ostream& os, const Human& obj)
 	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age();
 }
 
+
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETRS speciality, group, rating, attendance
+
 
 class Student :public Human
 {
