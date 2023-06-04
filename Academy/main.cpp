@@ -1,15 +1,22 @@
+﻿//#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
-using namespace std;
+#include<fstream>
 
-#define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
-#define HUMAN_GIVE_PARAMETRS last_name, first_name, age
+using namespace std;
 
 #define tab "\t"
 #define delimiter "\n-------------------------------------\n"
 
+#define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
+#define HUMAN_GIVE_PARAMETRS last_name, first_name, age
+
 class Human
 {
+private:
+	std::string last_name;
+	std::string first_name;
+	int age;
 public:
 	const std::string& get_last_name()const
 	{
@@ -40,19 +47,23 @@ public:
 
 	virtual void print()const;
 
-private:
-	std::string last_name;
-	std::string first_name;
-	int age;
 };
 
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age();
+}
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETRS speciality, group, rating, attendance
 
-
 class Student :public Human
 {
+private:
+	std::string speciality;
+	std::string group;
+	double rating;
+	double attendance;
 public:
 	const std::string& get_speciality()const
 	{
@@ -86,9 +97,7 @@ public:
 	{
 		this->attendance = attendance;
 	}
-	Student
-	(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS
-	) :Human(HUMAN_GIVE_PARAMETRS)
+	Student(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS) :Human(HUMAN_GIVE_PARAMETRS)
 	{
 		set_speciality(speciality);
 		set_group(group);
@@ -103,13 +112,8 @@ public:
 	void print()const
 	{
 		Human::print();
-		cout << speciality << ", " << group << ", " << rating << ", " << attendance << '.' << endl;
+		cout << speciality << " " << group << " " << rating << " " << attendance << endl;
 	}
-private:
-	std::string speciality;
-	std::string group;
-	double rating;
-	double attendance;
 };
 
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int experience
@@ -117,6 +121,9 @@ private:
 
 class Teacher :public Human
 {
+private:
+	std::string speciality;
+	int experience;
 public:
 	const std::string& get_speciality()const
 	{
@@ -134,9 +141,7 @@ public:
 	{
 		this->experience = experience;
 	}
-	Teacher
-	(HUMAN_TAKE_PARAMETRS, TEACHER_TAKE_PARAMETRS
-	) :Human(HUMAN_GIVE_PARAMETRS)
+	Teacher(HUMAN_TAKE_PARAMETRS, TEACHER_TAKE_PARAMETRS) :Human(HUMAN_GIVE_PARAMETRS)
 	{
 		set_speciality(speciality);
 		set_experience(experience);
@@ -149,15 +154,14 @@ public:
 	void print()const
 	{
 		Human::print();
-		cout << speciality << ", " << experience << '.' << endl;
+		cout << speciality << " " << experience << endl;
 	}
-private:
-	std::string speciality;
-	int experience;
 };
 
 class Graduate :public Student
 {
+private:
+	std::string subject;
 public:
 	const std::string& get_subject()const
 	{
@@ -167,8 +171,7 @@ public:
 	{
 		this->subject = subject;
 	}
-	Graduate
-	(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS, const std::string& subject
+	Graduate(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS, const std::string& subject
 	) :Student(HUMAN_GIVE_PARAMETRS, STUDENT_GIVE_PARAMETRS)
 	{
 		set_subject(subject);
@@ -183,8 +186,7 @@ public:
 		Student::print();
 		cout << subject << endl;
 	}
-private:
-	std::string subject;
+
 };
 
 Human::Human(HUMAN_TAKE_PARAMETRS)
@@ -202,8 +204,32 @@ Human::~Human()
 
 void Human::print()const
 {
-	cout << "Name:\t" << last_name << " " << first_name << endl;
-	cout << "Age:\t" << age << " years old." << endl;
+	cout << last_name << " " << first_name << " " << age << " y/o" << endl;
+}
+
+void print(Human** group, const int n)
+{
+	cout << delimiter << endl;
+	for (int i = 0; i < n; i++)
+	{
+		group[i]->print();
+		cout << delimiter << endl;
+	}
+}
+
+void save(Human** group, const int n, const char* filename)
+{
+	ofstream fout(filename);
+	fout << delimiter << endl;
+	for (int i = 0; i < n; i++)
+	{
+		fout << *group[i] << endl;
+		fout << delimiter << endl;
+	}
+	fout.close();
+	char command[FILENAME_MAX] = "start notepad ";
+	strcat_s(command, filename);
+	system(command);
 }
 
 //#define INHERITANCE_CHECK
@@ -218,7 +244,7 @@ void main()
 	Human human("Vercitty", "Tomas", 31);
 	human.print();
 	cout << delimiter << endl;
-	Student student("Pinkman", "Jessie", 25, "Chemistry", "WW_201", 98, 95);
+	Student student("Pinkman", "Jessie", 25, "Chemistry", "WW_220", 98, 95);
 	student.print();
 	cout << delimiter << endl;
 	Teacher teacher("White", "Walter", 52, "Chemistry", 20);
@@ -232,20 +258,15 @@ void main()
 
 	Human* group[] =
 	{
-		new Student("Pinkman", "Jessie", 25, "Chemistry", "WW_201", 98, 95),
+		new Student("Pinkman", "Jessie", 25, "Chemistry", "WW_220", 98, 95),
 		new Teacher("White", "Walter", 52, "Chemistry", 20),
 		new Graduate("Shreder", "Hank", 40, "Criminalistic", "OBN", 90, 70, "How to catch Heisenberg?"),
 		new Student("Vercitty", "Tomas", 31, "Theft","Vice",98,99),
 		new Teacher("Diaz","Ricardo", 50,"Weapons Distribution",25)
 	};
 
-	cout << delimiter << endl;
-
-	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
-	{
-		group[i]->print();
-		cout << delimiter << endl;
-	}
+	print(group, sizeof(group) / sizeof(group[0]));
+	save(group, sizeof(group) / sizeof(group[0]), "Group.txt");
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
