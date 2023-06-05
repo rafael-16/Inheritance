@@ -1,23 +1,6 @@
-
--------------------------------------
-
-Pinkman Jessie 25
-
--------------------------------------
-
-White Walter 52
-
--------------------------------------
-
-Shreder Hank 40
-
--------------------------------------
-
-Vercitty Tomas 31
-
--------------------------------------
-
-Diaz Ricardo 50
-
--------------------------------------
-
+class Student:	Pinkman        Jessie    25 Chemistry             WW_220  98      95      
+class Teacher:	White          Walter    52 Chemistry             20 
+class Graduate:	Shreder        Hank      40 Criminalistic         OBN     90      70      How to catch Heisenberg?
+class Student:	Vercitty       Tomas     31 Theft                 Vice    98      99      
+class Teacher:	Diaz           Ricardo   50 Weapons Distribution  25 
+class Graduate:	Rosenberg      Ken       27 Lower                 Vice    75      20      Get money back
