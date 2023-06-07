@@ -7,8 +7,8 @@
 
 
 //#define INHERITANCE_CHECK
-#define POLYMORPHISM
-//#define LOAD_TO_FILE
+//#define POLYMORPHISM
+#define LOAD_TO_FILE
 
 void main()
 {
