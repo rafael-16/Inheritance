@@ -401,9 +401,9 @@ namespace Geometry
 
 void main()
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// Получаем окно консоли
+	//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// Получаем окно консоли
 	//COORD coord = {};// Объявляем экземпляр структуры COORD. Мы никак не используем его, но без него нельзя вызвать следущую функцию, если не NULL
-	SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, NULL); // Функция SetConsoleDisplayMode задает режим отображения консоля
+	//SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, NULL); // Функция SetConsoleDisplayMode задает режим отображения консоля
 
 	setlocale(LC_ALL, "");
 	Geometry::Square square(50, Geometry::Color::red, 300, 100, 5);
